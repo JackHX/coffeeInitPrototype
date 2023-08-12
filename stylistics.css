@@ -1,0 +1,793 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+   The [x-cloak] attribute is a utility provided by the Alpine.js framework.
+   Elements with the x-cloak attribute will be hidden initially.
+   Once Alpine has been initialized and is ready, the x-cloak attribute will be removed,
+   causing any elements with it to become visible (unless they're controlled by other Alpine directives).
+*/
+
+[x-cloak] {
+    display: none;
+}
+
+/*
+  This class applies a futuristic-styled font called "Orbitron".
+  If the "Orbitron" font isn't available, it will default to the system's sans-serif font.
+*/
+
+.futuristic-font {
+    font-family: 'Orbitron', sans-serif;
+}
+
+/*Loader section*/
+
+.loader-background {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+}
+
+.glow-icon {
+    color: #03e9f4;
+    filter: drop-shadow(0 0 5px #03e9f4) drop-shadow(0 0 10px #03e9f4) drop-shadow(0 0 15px #03e9f4) drop-shadow(0 0 20px #03e9f4);
+}
+
+.glow-text {
+    animation: glow-animation 4s ease-in-out infinite;
+    text-shadow: 0 0 5px #03e9f4;
+}
+
+@keyframes glow-animation {
+    0% {
+        text-shadow: 0 0 5px #03e9f4;
+    }
+    50% {
+        text-shadow: 0 0 15px #03e9f4;
+    }
+    100% {
+        text-shadow: 0 0 5px #03e9f4;
+    }
+}
+
+/*Welcome section*/
+
+.welcoming-glow {
+    text-shadow: 0 0 10px #03e9f4,
+    0 0 20px #03e9f4,
+    0 0 40px #03e9f4,
+    0 0 80px #03e9f4,
+    0 0 120px #03e9f4;
+}
+
+.typewriter {
+    color: #03e9f4;
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: .15em; /* Adjust as needed */
+    animation:
+            typing 8s ease forwards,
+            float 4s ease-in-out infinite,
+            glow-animation 4s ease-in-out infinite;
+    position: relative;  /* To contain pseudo-elements */
+    padding-left: 50px; /* Adjust as needed */
+    text-shadow:
+            0 0 5px #03e9f4,
+            0 0 10px #03e9f4,
+            0 0 15px #03e9f4,
+            0 0 20px #03e9f4,
+            0 0 25px #03e9f4,
+            0 0 30px #03e9f4;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100%; }
+}
+
+.typewriter::before {
+    /* Create a pseudo-element for the initial padding */
+    content: "";
+    width: 50px; /* Adjust to match padding-left */
+    visibility: hidden;
+}
+
+
+.typewriter::after {
+    content: "\00a0\00a0\00a0";
+    animation: ellipsis 3s infinite, glow-animation 4s ease-in-out infinite;
+    white-space: pre; /* Keeps the spaces */
+}
+
+@keyframes ellipsis {
+    0% {
+        content: "\00a0\00a0\00a0";
+    }
+    33% {
+        content: ".\00a0\00a0";
+    }
+    66% {
+        content: "..\00a0";
+    }
+    100% {
+        content: "...";
+    }
+}
+
+.typewriter.opacity-0[x-show] {
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+}
+
+/*Introduction menu*/
+
+.star-container {
+    position: relative;
+}
+
+.star {
+    background-color: rgba(255, 255, 255, 0.8); /* Change this to a higher value or a brighter color */
+    position: absolute;
+    border-radius: 50%;
+    animation-name: twinkle;
+    animation-iteration-count: infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% {
+        opacity: 0.1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+
+.content-container {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-item {
+    position: relative;
+    transition: transform 0.3s ease-in-out;
+}
+
+.nav-item a {
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-item a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px; /* Adjust to shift down */
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background: #03e9f4;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s ease-in-out;
+    box-shadow: 0 2px 5px #03e9f4, 0 2px 10px #03e9f4, 0 2px 15px #03e9f4, 0 2px 20px #03e9f4;
+    border-radius: 5px; /* To make the line ends slightly curved */
+}
+
+.nav-item a:hover::after {
+    transform: scaleX(1);
+}
+
+.nav-item.show {
+    opacity: 1;
+}
+
+.title-icon-background {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    animation: pulse 4s infinite;
+}
+
+.title-icon-background::before {
+    content: '';
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    border: 2px solid #03e9f4;
+    border-radius: 50%;
+    z-index: -1;
+    filter: drop-shadow(0 0 5px #03e9f4) drop-shadow(0 0 10px #03e9f4) drop-shadow(0 0 15px #03e9f4) drop-shadow(0 0 20px #03e9f4);
+}
+
+.larger-circle-background {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    animation: pulse 4s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.05); }
+    50% { transform: scale(1); }
+    75% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.larger-circle-background::before {
+    content: '';
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border: 2px solid #03e9f4;
+    border-radius: 50%;
+    z-index: -1;
+    filter: drop-shadow(0 0 5px #03e9f4) drop-shadow(0 0 10px #03e9f4) drop-shadow(0 0 15px #03e9f4) drop-shadow(0 0 20px #03e9f4);
+}
+
+.fa-circle-bolt {
+    font-size: 0.8em; /* Adjust as per the desired size of the bolt */
+    position: absolute;
+    color: #03e9f4;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/*Header section*/
+
+.search-input {
+    border: 2px solid transparent;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    background-color: transparent;
+    color: #fff;
+    outline: none;
+    position: relative;
+}
+
+.search-input::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 0.25rem;
+    background: radial-gradient(#03e9f4, transparent 50%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.glow-input {
+    box-shadow: 0 0 8px 2px #03e9f4;
+    animation: glow-input-animation 2s ease-in-out infinite;
+}
+
+@keyframes glow-input-animation {
+    0% {
+        box-shadow: 0 0 8px 2px #03e9f4;
+    }
+    50% {
+        box-shadow: 0 0 15px 5px #03e9f4;
+    }
+    100% {
+        box-shadow: 0 0 8px 2px #03e9f4;
+    }
+}
+
+/*Primary menu section*/
+
+.led-screen {
+    background: repeating-linear-gradient(
+            0deg,
+            rgba(0, 0, 0, 0.5),
+            rgba(0, 0, 0, 0.5) 1px,
+            transparent 1px,
+            transparent 5px
+    ),
+    repeating-linear-gradient(
+            -90deg,
+            rgba(0, 0, 0, 0.5),
+            rgba(0, 0, 0, 0.5) 1px,
+            transparent 1px,
+            transparent 5px
+    );
+    backdrop-filter: brightness(1.5);
+    background-blend-mode: difference;
+    padding: 20px;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.animated-letter {
+    animation: glow-up 2s ease-in forwards, /* New animation */
+    float 4s ease-in infinite; /* Existing animation */
+}
+
+@keyframes glow-up {
+    0% {
+        color: #2d3748; /* Initial color (tailwind gray-800) */
+    }
+    100% {
+        color: white; /* Final color (turquoise) */
+    }
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.float {
+    animation: float 4s ease-in-out infinite;
+}
+
+.float-button {
+    animation: float 4s ease-in-out infinite, glow-box-animation 3s infinite;
+}
+
+.float-button:hover {
+    animation: float 4s ease-in-out infinite, glow-box-animation 3s infinite, wave
+}
+
+.menu-item-content h2:hover {
+    color: #03e9f4;
+    text-shadow: 0 0 10px #03e9f4, 0 0 20px #03e9f4, 0 0 30px #03e9f4, 0 0 40px #03e9f4;
+    transition: color 0.5s ease-in-out, text-shadow 0.5s ease-in-out;
+}
+
+/* Apply the wave and glow-box animations to the button and div elements on hover */
+
+.menu-item:hover {
+    animation: wave 1.5s ease-in-out infinite, glow-box-animation 3s ease-in-out infinite;
+}
+
+.menu-item {
+    position: relative;
+    overflow: hidden;
+    height: 100px;
+}
+
+.productInfo {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    transform: translateY(100%);
+    transition: transform 0.5s;
+}
+
+.menu-item:hover .productInfo {
+    transform: translateY(0);
+}
+
+.glow-box {
+    animation: glow-box-animation 3s infinite;
+    border-radius: 10px;
+}
+
+/* Define the glow-box animation */
+
+@keyframes glow-box-animation {
+    0% {
+        box-shadow: 0 0 5px rgba(0, 232, 255, 0.6), 0 0 10px rgba(0, 232, 255, 0.6), 0 0 15px rgba(0, 232, 255, 0.6), 0 0 20px rgba(0, 232, 255, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 10px rgba(0, 232, 255, 0.6), 0 0 20px rgba(0, 232, 255, 0.6), 0 0 30px rgba(0, 232, 255, 0.6), 0 0 40px rgba(0, 232, 255, 0.6);
+    }
+    100% {
+        box-shadow: 0 0 5px rgba(0, 232, 255, 0.6), 0 0 10px rgba(0, 232, 255, 0.6), 0 0 15px rgba(0, 232, 255, 0.6), 0 0 20px rgba(0, 232, 255, 0.6);
+    }
+}
+
+@keyframes wave {
+    0%, 100% {
+        transform: scale(1.00);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/*Sliding section(crawler)*/
+
+.animated-letter-static {
+    animation: glow-up 2s ease-in forwards; /* New animation */
+    margin-right: 30px;
+    white-space: nowrap;
+}
+
+#led-grid-customer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+    margin: 0 auto;
+    overflow: hidden; /* Hide the overflow */
+    position: relative; /* Position relative to place waiting symbol */
+}
+
+.review-slide {
+    display: flex;
+    width: auto;  /* Change from max-content to auto */
+    animation: slide 60s linear infinite;
+}
+
+.reviews-container {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 50px;
+    flex-shrink: 0;  /* Add this */
+}
+
+@keyframes slide {
+    0% { transform: translateX(100%); opacity: 0; }
+    5% { opacity: 1; }
+    95% { opacity: 1; }
+    100% { transform: translateX(-100%); opacity: 0; }
+}
+
+/*Advantages section*/
+
+.benefit-card {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    perspective: 1500px; /* Increased perspective for a more dramatic 3D effect */
+    margin: 10px;
+    box-shadow: 0 0 10px #08f,
+    0 0 20px #08f,
+    0 0 30px #08f,
+    0 0 40px #08f;
+}
+
+
+.benefit-card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) 1px, transparent 1px, transparent 5px),
+    repeating-linear-gradient(-90deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) 1px, transparent 1px, transparent 5px);
+    backdrop-filter: brightness(1.5);
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: auto;
+    text-shadow:
+            0 0 5px #08f,
+            0 0 10px #08f,
+            0 0 15px #08f,
+            0 0 20px #08f;
+}
+
+.benefit-card-face--front {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.benefit-card-face--back {
+    transform: rotateY(180deg);
+    animation: none;
+}
+
+.benefit-card-icon {
+    font-size: 1.8em; /* Increase the size of the icon */
+    position: relative;
+    top: -12px; /* Adjust the position closer to the title text */
+    text-shadow:
+            0 0 5px #03e9f4,
+            0 0 10px #03e9f4,
+            0 0 15px #03e9f4,
+            0 0 20px #03e9f4;
+    transition: text-shadow 4s ease-in-out;
+}
+
+.benefit-card-title,
+.benefit-card-description {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.benefit-card {
+    transform-style: preserve-3d;
+    transform: rotateX(15deg);  /* Initial rotation for a 3D effect */
+    transition: transform 0.6s ease-in-out;  /* Added ease-in-out for a smoother transition */
+}
+
+.benefit-card:hover {
+    transform: rotateY(180deg) rotateX(15deg);  /* Maintain the initial x-axis rotation when hovered */
+}
+
+.benefit-card:hover .benefit-card-face--back {
+    transition-delay: 0.6s;  /* Delay before flipping back */
+}
+
+.alien-text-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0.2;
+    background: linear-gradient(white 0%, transparent 10%, transparent 90%, white 100%);
+    mask-image: linear-gradient(to bottom, transparent, white, white, transparent);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.alien-text {
+    font-size: 5vw;
+    line-height: 5vw;
+    font-weight: bold;
+    color: #03e9f4;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px #03e9f4, 0 0 20px #03e9f4, 0 0 30px #03e9f4, 0 0 40px #03e9f4;
+    animation: alien-scroll 20s linear infinite, alienPulse 2s ease-in-out infinite;
+    text-align: center;
+}
+
+@keyframes alienPulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes alien-scroll {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+/*Offers section*/
+
+.offer-box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(3, 233, 244, 0.1);
+    box-shadow: 0 0 5px #03e9f4, 0 0 10px #03e9f4, 0 0 15px #03e9f4, 0 0 20px #03e9f4;
+    animation: glowing 2s infinite;
+    z-index: -1;
+}
+
+@keyframes glowing {
+    0% { box-shadow: 0 0 5px #03e9f4, 0 0 10px #03e9f4, 0 0 15px #03e9f4, 0 0 20px #03e9f4; }
+    50% { box-shadow: 0 0 10px #03e9f4, 0 0 20px #03e9f4, 0 0 30px #03e9f4, 0 0 40px #03e9f4; }
+    100% { box-shadow: 0 0 5px #03e9f4, 0 0 10px #03e9f4, 0 0 15px #03e9f4, 0 0 20px #03e9f4; }
+}
+
+.offer-box {
+    transition: box-shadow 1s ease-in-out; /* Increased transition duration to 1 second for a smoother effect */
+}
+
+.offer-box.glowing {
+    box-shadow: 0 0 5px #03e9f4, 0 0 10px #03e9f4, 0 0 15px #03e9f4; /* Reduced glow intensity */
+}
+
+/*Company information section*/
+
+.pulsing-nebula {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+@keyframes glowingNebula {
+    0% { box-shadow: 0 0 5px #03e9f4, 0 0 10px #03e9f4; }
+    50% { box-shadow: 0 0 20px #03e9f4, 0 0 25px #03e9f4, 0 0 30px #03e9f4; }
+    100% { box-shadow: 0 0 5px #03e9f4, 0 0 10px #03e9f4; }
+}
+
+@keyframes fadeInEffect {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.animate-box-fade-in {
+    animation: fadeInEffect 2s ease-in forwards;
+}
+
+.box-animation-delay-500 {
+    animation-delay: 0.5s;
+}
+
+.box-animation-delay-1000 {
+    animation-delay: 1s;
+}
+
+
+.transition-width {
+    transition: width .5s;
+}
+
+/*Rating section*/
+
+.glow-fill {
+    box-shadow: 0 0 10px #03e9f4, 0 0 5px #03e9f4;
+    animation: glow-fill 1s ease-in-out infinite alternate;
+}
+
+@keyframes glow-fill {
+    from {
+        box-shadow: 0 0 5px #03e9f4, 0 0 10px #03e9f4;
+    }
+
+    to {
+        box-shadow: 0 0 20px #03e9f4, 0 0 30px #03e9f4;
+    }
+}
+
+.glitter-text {
+    animation: glitter 3s infinite;
+    color: white; /* Bright white color */
+    font-weight: bold;
+}
+
+@keyframes glitter {
+    0%, 100% {
+        opacity: 0.95;
+        text-shadow: 0 0 10px #fff, 0 0 20px #00faff, 0 0 25px #00faff;
+    }
+    25% {
+        opacity: 1;
+        text-shadow: 0 0 5px #fff, 0 0 15px #00faff, 0 0 20px #00faff;
+    }
+    50% {
+        opacity: 0.9;
+        text-shadow: 0 0 15px #fff, 0 0 20px #00faff, 0 0 25px #00faff;
+    }
+    75% {
+        opacity: 1;
+        text-shadow: 0 0 5px #fff, 0 0 10px #00faff, 0 0 15px #00faff;
+    }
+}
+
+/*Footer section*/
+
+.footer {
+    position: relative;
+    z-index: 1;
+    background: #1a202c;
+    overflow: hidden;
+}
+
+.footer::before,
+.footer::after {
+    content: "";
+    position: absolute;
+    background: linear-gradient(to top left, rgba(3,233,244,0), rgba(3,233,244,1), rgba(63,94,251,1), transparent 50%);
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.gradient-text {
+    background: linear-gradient(to right, #03e9f4, #3f5efb);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.title-container {
+    text-align: center;
+    margin-top: 20px;
+    perspective: 1000px;
+}
+
+.title-container #led-grid {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    color: #03e9f4;
+    text-shadow:
+            0 0 5px #03e9f4,
+            0 0 10px #03e9f4,
+            0 0 15px #03e9f4,
+            0 0 20px #03e9f4;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 5px #03e9f4, 0 0 10px #03e9f4, 0 0 15px #03e9f4, 0 0 20px #03e9f4;
+    }
+    100% {
+        box-shadow: 0 0 10px #03e9f4, 0 0 20px #03e9f4, 0 0 30px #03e9f4, 0 0 40px #03e9f4;
+    }
+}
+
+/* Social media icons styling */
+
+a .fab {
+    font-size: 1.5em;
+    background: linear-gradient(45deg, #ffffff, #ffffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+a .fab.fa-facebook {
+    background: linear-gradient(45deg, #3b5998, #8b9dc3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+a .fab.fa-twitter {
+    background: linear-gradient(45deg, #1da1f2, #aad8f1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+a .fab.fa-instagram {
+    background: linear-gradient(45deg, #e1306c, #f77737, #fd1d1d, #bc2a8d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

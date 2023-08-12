@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html x-data="{ searchOpen: false, sidebarOpen: false }" x-init="$watch('searchOpen', value => value ? document.body.classList.add('overflow-hidden') : document.body.classList.remove('overflow-hidden'))">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+
+    <link rel="stylesheet" href="stylistics.css"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Alpine Plugins -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
+    <!-- Alpine Core -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+
+</head>
+<div x-data="{ isLoading: true, showWelcomeMessage: false, showNavContent: false, showContent: false }"
+     x-init="setTimeout(() => {
+                 isLoading = false;
+                 setTimeout(() => {
+                     showWelcomeMessage = true;
+                     setTimeout(() => {
+                         showWelcomeMessage = false;
+                         setTimeout(() => {
+                             showNavContent = true;
+                             if (typeof window.startStarAnimation === 'function') {
+                                 window.startStarAnimation();
+                             }
+                         }, 3000);
+                     }, 5000);
+                 }, 3000);
+             }, 3000)">
+    <body class="futuristic-font text-white" style="background-color:black">
+
+
+    <!-- Loading Icon -->
+    <div x-show="isLoading" class="loader-background"
+         x-transition:leave="transition ease-linear duration-8000"
+         x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+        <div class="float flex flex-col items-center justify-center h-full">
+            <svg class="animate-spin h-10 md:h-20 w-10 md:w-20 text-[#03e9f4] glow-icon"
+                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                 x-transition:enter="transition ease-linear duration-8000"
+                 x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                 x-transition:leave="transition ease-linear duration-8000" x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <p class="text-white glow-text text-xl md:text-2xl mt-4 md:mt-9"
+               x-transition:enter="transition ease-linear duration-8000"
+               x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+               x-transition:leave="transition ease-linear duration-8000" x-transition:leave-start="opacity-100"
+               x-transition:leave-end="opacity-0">Loading in progress</p>
+        </div>
+    </div>
+
+    <!-- Welcome Message -->
+    <div x-show="showWelcomeMessage" class="welcoming-glow"
+         x-transition:enter="transition-opacity duration-2000"
+         x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+         x-transition:leave="transition-opacity duration-2000" x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0">
+        <div class="flex items-center justify-center h-screen">
+            <p class="text-white text-2xl md:text-4xl relative z-10 typewriter">Welcome to the website</p>
+        </div>
+    </div>
+
+    <!-- Menu content-->
+    <div x-show="showNavContent"
+         x-transition:enter="transition ease-linear duration-8000 transform delay-3000"
+         x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100">
+        <div id="content-container" class="orbit-container" style="position: relative; height: 100vh; display: flex; align-items: center; justify-content: center;">
+            <div class="glowing-ball"></div>
+            <div class="planet">
+                <div id="logo" class="text-2xl md:text-4xl font-bold tracking-tight glow-text larger-circle-background" style="display: flex; align-items: center; justify-content: center;">
+                    <a href="#" class="text-white title-icon-background">
+                        <i class="fas fa-bolt fa-circle-bolt"></i>  <!-- Here's the lightning bolt icon -->
+                    </a>
+                </div>
+                <nav>
+                    <ul id="nav-items" style="position: absolute; top: 50%; left: 50%; width: 200px; height: 200px; transform: translate(-50%, -50%);">
+                        <li id="nav-home" class="nav-item" style="position: absolute; top: 0; left: 50%; transform: translate(-50%, -100%);">
+                            <a href="#" x-on:click="showNavContent = false; showContent = true;"
+                               class="text-sm md:text-xl text-white hover:text-gray-300 glow-text"
+                               x-transition:enter="transition ease-linear duration-8000"
+                               x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                               x-transition:leave="transition ease-linear duration-8000" x-transition:leave-start="opacity-100"
+                               x-transition:leave-end="opacity-0">Home</a>
+                        </li>
+                        <li id="nav-about" class="nav-item" style="position: absolute; top: 50%; right: 0; transform: translate(100%, -50%);">
+                            <a href="#" x-on:click="showNavContent = false; showContent = true;"
+                               class="text-sm md:text-xl hover:text-gray-300 glow-text text-white"
+                               x-transition:enter="transition ease-linear duration-8000"
+                               x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                               x-transition:leave="transition ease-linear duration-8000" x-transition:leave-start="opacity-100"
+                               x-transition:leave-end="opacity-0">About</a>
+                        </li>
+                        <li id="nav-services" class="nav-item" style="position: absolute; bottom: 0; left: 50%; transform: translate(-50%, 100%);">
+                            <a href="#" x-on:click="showNavContent = false; showContent = true;"
+                               class="text-sm md:text-xl hover:text-gray-300 glow-text text-white"
+                               x-transition:enter="transition ease-linear duration-8000"
+                               x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                               x-transition:leave="transition ease-linear duration-8000" x-transition:leave-start="opacity-100"
+                               x-transition:leave-end="opacity-0">Services</a>
+                        </li>
+                        <li id="nav-contact" class="nav-item" style="position: absolute; top: 50%; left: 0; transform: translate(-100%, -50%);">
+                            <a href="#" x-on:click="showNavContent = false; showContent = true;"
+                               class="text-sm md:text-xl hover:text-gray-300 glow-text text-white"
+                               x-transition:enter="transition ease-linear duration-8000"
+                               x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                               x-transition:leave="transition ease-linear duration-8000" x-transition:leave-start="opacity-100"
+                               x-transition:leave-end="opacity-0">Contact</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Main Content -->
+    <div x-show="showContent"
+         x-transition:enter="transition ease-in-out duration-5000 transform delay-2000"
+         x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100">
+
+        <header class="bg-gray-900 text-white py-8" x-data="{ sidebarOpen: false, searchOpen: false }">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap justify-between items-center">
+                <!-- Logo or site name -->
+                <a href="#" class="text-4xl font-bold tracking-tight glow-text sm:text-2xl md:text-3xl lg:text-4xl">Your Logo</a>
+
+                <!-- Navigation menu -->
+                <nav :class="{'hidden lg:flex': sidebarOpen}" class="lg:space-x-10 w-full lg:w-auto mt-6 lg:mt-0">
+                    <ul class="flex space-x-2 sm:space-x-4 md:space-x-6 lg:space-x-10 justify-between lg:justify-start">
+                        <li><a href="#" class="text-lg hover:text-gray-300 glow-text sm:text-xl">Home</a></li>
+                        <li><a href="#" class="text-lg hover:text-gray-300 glow-text sm:text-xl">About</a></li>
+                        <li><a href="#" class="text-lg hover:text-gray-300 glow-text sm:text-xl">Services</a></li>
+                        <li><a href="#" class="text-lg hover:text-gray-300 glow-text sm:text-xl">Contact</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Cloaked Search Bar -->
+                <div class="relative mt-6 lg:mt-0">
+                    <button @click="searchOpen = !searchOpen" class="text-white focus:outline-none">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path>
+                        </svg>
+                    </button>
+                    <div x-show="searchOpen" x-transition:enter="transition ease-out duration-300 transform origin-top-right"
+                         x-transition:enter-start="opacity-0 scale-90"
+                         x-transition:enter-end="opacity-100 scale-100"
+                         x-transition:leave="transition ease-in duration-300 transform origin-top-right"
+                         x-transition:leave-start="opacity-100 scale-100"
+                         x-transition:leave-end="opacity-0 scale-90" @click.away="searchOpen = false" class="absolute top-0 right-0 mt-12">
+                        <div class="relative">
+                            <input type="text" placeholder="Search" class="px-4 py-2 rounded-lg bg-gray-700 text-white search-transition search-input glow-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+            <!-- Primary section-->
+            <main class="bg-black text-white py-10 sm:py-20">
+                <div class="relative text-center px-4 sm:px-6 lg:px-8">
+                    <h1 id="led-grid" class="relative z-10 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight glow-text float led-screen led animated-letter" style="pointer-events: none;">Welcome to Neon Coffee</h1>
+                    <p class="relative z-10 mt-4 sm:mt-8 text-sm sm:text-md md:text-lg text-center text-gray-300 glow-text float" style="pointer-events: none;">Serving the best coffee in the galaxy. Open 24/7 for all your caffeine needs.</p>
+                    <button id="cta" class="relative z-10 mt-8 sm:mt-10 px-8 py-2 text-xl text-white bg-gradient-to-r from-gray-800 via-gray-900 to-gray-800 rounded glow-text mx-auto block float float-button">Order Now</button>
+                </div>
+
+                        <!-- Featured items section -->
+                        <section class="mt-20 space-y-6 sm:space-y-10 text-center px-4 sm:px-6 lg:px-8" x-data="{shownItems: 3, items: [
+                            { name: 'Neon Espresso', description: 'Rich, full-bodied espresso in a variety of flavors.', price: 5.00, open: false },
+                            { name: 'Glowing Latte', description: 'Smooth, creamy latte with a glow that guides you through the galaxy.', price: 6.00, open: false },
+                            { name: 'Cosmic Cappuccino', description: 'Our cappuccino is out of this world. Literally.', price: 7.00, open: false },
+                            { name: 'Stellar Mocha', description: 'Experience the depth of flavors in our Stellar Mocha. It\'s heavenly!', price: 7.50, open: false },
+                            { name: 'Galactic Frappuccino', description: 'An icy blast of flavor that\'ll leave you starstruck.', price: 8.00, open: false },
+                            { name: 'Universe Macchiato', description: 'A powerful espresso with a twist, as limitless as the universe itself.', price: 7.50, open: false },
+                            { name: 'Black Hole Cold Brew', description: 'Dive into the intense flavor of our slow-brewed, chilled coffee. It\'s out of this world!', price: 6.50, open: false },
+                            { name: 'Milky Way Macadamia Latte', description: 'A creamy delight with rich macadamia notes, as comforting as the Milky Way in the night sky.', price: 7.00, open: false },
+                            { name: 'Quasar Quick Coffee', description: 'When you need a caffeine boost at light speed, this energizing brew is for you.', price: 5.00, open: false },
+                            { name: 'Supernova Sweet Mocha', description: 'Experience an explosion of sweet chocolate and robust coffee flavors. A taste sensation that\'s truly supernova!', price: 7.00, open: false },
+                            { name: 'Neutron Star Nitro', description: 'A powerful and energizing nitrogen-infused cold brew that will leave you feeling stellar.', price: 6.50, open: false },
+                            { name: 'Cosmic Quasar Cappuccino', description: 'A celestial combination of rich espresso, velvety milk, and a touch of stardust cocoa.', price: 7.50, open: false }
+                        ]}">
+
+                            <h2 class="z-10 text-2xl sm:text-3xl font-bold tracking-tight glow-text justify-center float" style="pointer-events: none;">Featured Coffees</h2>
+                            <div class="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8 lg:gap-16 items-center mt-8 md:mt-24 float">
+                                <!-- Define an array of items -->
+                                <template x-for="(item, index) in items" :key="index">
+                                    <!-- Single menu item -->
+                                    <div class="menu-item bg-gradient-to-r from-gray-800 via-gray-900 to-gray-800 m-4 w-3/4 h-48 relative overflow-hidden rounded-lg glow-box"
+                                         x-show="index < shownItems"
+                                         x-transition:enter="transition ease-out duration-500"
+                                         x-transition:enter-start="opacity-0 transform translate-x-full"
+                                         x-transition:enter-end="opacity-100 transform translate-x-0">
+
+                                        <!-- Menu item content -->
+                                        <div class="menu-item-content">
+                                            <!-- Menu item title -->
+                                            <h2 class="text-xl font-bold tracking-tight text-center text-white mt-10 glow-text" x-text="item.name"></h2>
+                                            <!-- Menu item description -->
+                                            <div class="mt-4 text-lg text-center text-white glow-text" x-text="item.description"></div>
+                                            <!-- Menu item price -->
+                                            <div class="mt-4 text-lg text-center text-white glow-text" x-text="'$' + item.price.toFixed(2)"></div>
+                                        </div>
+
+                                        <!-- Detailed information -->
+                                        <template x-if="item.info">
+                                            <div class="productInfo text-center text-white mt-4" x-text="item.info"></div>
+                                        </template>
+                                    </div>
+                                </template>
+                            </div>
+                            <button class="relative z-10 mt-8 sm:mt-10 px-8 py-2 text-xl text-white bg-gradient-to-r from-gray-800 via-gray-900 to-gray-800 rounded glow-text mx-auto block float float-button" @click="shownItems += 3" x-show="shownItems < items.length">Show More</button>
+                        </section>
+
+                        <!-- Slider section -->
+                        <section class="mt-16">
+                            <div id="led-grid-customer" class="led-screen p-8 glow-box">
+                                <div class="review-slide">
+                                    <div class="reviews-container">
+                                        <p class="animated-letter-static glow-text">"Best coffee in town! The caffeine is just right." - John Doe</p>
+                                        <p class="animated-letter-static glow-text">"I can't start my day without their coffee. Highly recommended!" - Jane Smith</p>
+                                        <p class="animated-letter-static glow-text">"Absolutely love their brews! Amazing ambiance too." - Mary Johnson</p>
+                                        <p class="animated-letter-static glow-text">"Best place to work and enjoy a cup of coffee." - James Williams</p>
+                                    </div>
+                                    <div class="reviews-container">
+                                        <p class="animated-letter-static glow-text">"Best coffee in town! The caffeine is just right." - John Doe</p>
+                                        <p class="animated-letter-static glow-text">"I can't start my day without their coffee. Highly recommended!" - Jane Smith</p>
+                                        <p class="animated-letter-static glow-text">"Absolutely love their brews! Amazing ambiance too." - Mary Johnson</p>
+                                        <p class="animated-letter-static glow-text">"Best place to work and enjoy a cup of coffee." - James Williams</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Advantages cards -->
+                        <section class="float relative">
+                            <div class="mt-24">
+                                <h1 class="relative z-10 text-5xl font-bold tracking-tight glow-text animated-letter pointer-events-none text-center">Discover our Advantages</h1>
+                            </div>
+                            <div class="mt-16 flex flex-wrap justify-center" x-data="{ benefits: [
+                            { title: 'Premium Quality', icon: 'fa-solid fa-star', description: 'Our beans are sourced from the finest farms, ensuring a rich and luxurious taste in every sip.' },
+                            { title: 'Exceptional Service', icon: 'fa-solid fa-bell-concierge', description: 'Our staff are trained to provide you with a seamless and enjoyable coffee experience.' },
+                            { title: 'Variety of Choices', icon: 'fa-solid fa-mug-hot', description: 'From classic brews to our unique specialty drinks, there\'s something for everyone.' },
+                            { title: 'Sustainable Practices', icon: 'fa-solid fa-leaf', description: 'We prioritize eco-friendliness, using ethically sourced and recyclable materials.' }
+                        ]}">
+                                <template x-for="benefit in benefits" :key="benefit.title">
+                                    <div class="benefit-card glow-box aspect-[1/1] max-w-md mx-auto">
+                                        <div class="benefit-card-face benefit-card-face--front aspect-content">
+                                            <h2 class="benefit-card-title glow-text" x-text="benefit.title"></h2>
+                                            <i class="benefit-card-icon" :class="benefit.icon" style="color: #ffffff;"></i>
+                                        </div>
+                                        <div class="benefit-card-face benefit-card-face--back aspect-content">
+                                            <p class="benefit-card-description glow-text" x-text="benefit.description"></p>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                            <div class="alien-text-bg">
+                                <div class="alien-text">TARGET IDENTIFIED - BENEFITS</div>
+                            </div>
+                        </section>
+
+                        <!-- Offers section -->
+                        <div class="container mx-auto px-4">
+                            <section class="p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col items-center text-center glow-text float" x-data="{
+                offers: [
+                    { title: 'Free Refills', description: 'Get free refills on our house coffee with any purchase!', extraDetails: 'This offer is valid from Monday to Friday. Hurry up and claim your free refills!', buttonText: 'Claim Offer' },
+                    { title: 'Buy One Get One 50% Off', description: 'Purchase any coffee and get a second of equal or lesser value for half price!', extraDetails: 'This offer is only valid for our premium coffee range. Grab this offer while it lasts!', buttonText: 'Claim Offer' },
+                    { title: '10% Off Your Next Order', description: 'Sign up for our newsletter and get 10% off your next order.', extraDetails: 'This is a one-time offer for our new newsletter subscribers. Get 10% off on your next order!', buttonText: 'Claim Offer' },
+                ],
+                showDetails: [],
+                claimOffer: []
+            }">
+                                <div class="mt-10">
+                                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold uppercase tracking-wide mb-8 title-icon-background">
+                                        Special Offers
+                                    </h1>
+                                </div>
+                                <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+                                    <template x-for="(offer, index) in offers" :key="index">
+                                        <div class="offer-box p-6 sm:p-8 md:p-10 rounded-lg shadow-lg relative transition-all transform ease-in-out duration-500 overflow-hidden">
+                                            <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-2" x-text="offer.title"></h2>
+                                            <p class="text-sm sm:text-base md:text-lg mb-2 leading-relaxed" x-text="offer.description"></p>
+                                            <div class="overflow-hidden transition-all duration-500 ease-in-out flex items-center justify-center" :style="showDetails[index] ? 'max-height: 200px;' : 'max-height: 0;'">
+                                                <p x-show="showDetails[index]"
+                                                   x-transition:enter="transition ease-out duration-700 transform"
+                                                   x-transition:enter-start="opacity-0 translate-y-1"
+                                                   x-transition:enter-end="opacity-100 translate-y-0"
+                                                   class="text-sm sm:text-base md:text-lg mt-2 mb-2 leading-relaxed text-center"
+                                                   x-text="offer.extraDetails">
+                                                </p>
+                                            </div>
+                                            <button @click="showDetails[index] = !showDetails[index]; claimOffer[index] = true"
+                                                    class="px-4 sm:px-6 py-2 sm:py-3 bg-gray-800 rounded-full glow-box glow-text transition-all hover:scale-110 hover:shadow-lg text-sm sm:text-base md:text-lg"
+                                                    x-transition:enter="transition ease-out duration-700 transform"
+                                                    x-transition:enter-start="opacity-100 translate-y-0"
+                                                    x-transition:enter-end="opacity-100 translate-y-10"
+                                                    x-transition:leave="transition ease-out duration-700 transform"
+                                                    x-transition:leave-start="opacity-100 translate-y-10"
+                                                    x-transition:leave-end="opacity-100 translate-y-0"
+                                                    x-text="offer.buttonText"
+                                                    :class="claimOffer[index] ? 'translate-y-10 opacity-0' : showDetails[index] ? 'mt-10' : 'mt-4'">
+                                            </button>
+                                        </div>
+                                    </template>
+                                </div>
+                            </section>
+                        </div>
+
+                        <!-- Company information section-->
+                        <section class="p-12 flex flex-col items-center text-center glow-text float mb-20 mt-4">
+                            <div class="mt-20">
+                                <h1 class="text-5xl font-bold uppercase tracking-wide mt-8 mb-8 title-icon-background text-center">About Us</h1>
+                            </div>
+
+                            <div class="box-container flex flex-wrap mt-20 justify-center items-stretch space-x-5">
+
+                                <!-- About Galactic Coffee Box with Glowing Nebula Animation -->
+                                <div class="offer-box p-12 rounded-lg shadow-lg relative overflow-hidden text-center animate-box-fade-in box-animation-delay-500 flex-1" id="box1">
+                                    <h2 class="text-3xl font-bold mb-4">About Galactic Coffee</h2>
+                                    <p class="mb-4 leading-relaxed">Here at Galactic Coffee, we take pride in serving not just the best, but the most extraordinary coffee in the universe...</p>
+                                    <div class="pulsing-nebula rounded-full" style="background-color: #03e9f4; width: 40px; height: 40px; box-shadow: 0 0 5px #03e9f4, 0 0 10px #03e9f4; transition: box-shadow 0.5s;" onmouseover="this.style.animation='glowingNebula 2.5s infinite'" onmouseout="this.style.animation='none'" onclick="toggleGlow('box1')"></div>
+                                </div>
+
+                                <!-- Our Journey Box with Glowing Nebula Animation -->
+                                <div class="offer-box p-12 rounded-lg shadow-lg relative overflow-hidden text-center animate-box-fade-in box-animation-delay-1000 flex-1" id="box2">
+                                    <h2 class="text-3xl font-bold mb-4">Our Journey</h2>
+                                    <p class="mb-4 leading-relaxed">We journey to the farthest reaches of the galaxy to source the most unique and ethereal ingredients for our drinks...</p>
+                                    <div class="pulsing-nebula rounded-full" style="background-color: #03e9f4; width: 40px; height: 40px; box-shadow: 0 0 5px #03e9f4, 0 0 10px #03e9f4; transition: box-shadow 0.5s;" onmouseover="this.style.animation='glowingNebula 2.5s infinite'" onmouseout="this.style.animation='none'" onclick="toggleGlow('box2')"></div>
+                                </div>
+
+                            </div>
+                        </section>
+
+
+                        <!-- Rating section -->
+                        <section x-data="{rating: 0, fillTube: function() { if (this.rating < 5) this.rating++; }, getVocative: function() { return ['Not bad', 'Keep going', 'Good job', 'Almost there', 'Perfect'][this.rating-1] || ''; }}"
+                         class="container mx-auto px-24 py-24 flex flex-col items-center text-center glow-text glow-box bg-gray-900 rounded-xl text-white space-y-16 mb-20">
+                            <h1 class="text-5xl font-bold uppercase tracking-wide mb-16 title-icon-background text-center">
+                                Rate Our Galactic Coffee
+                            </h1>
+
+                            <!-- Tube starts here -->
+                            <div class="w-full h-32 border-2 border-gray-400 rounded-full overflow-hidden relative glow-box mb-16">
+                                <div class="absolute inset-0 transition-width duration-500 ease-in-out glow-fill"
+                                     :style="'background: linear-gradient(to left, rgba(3,233,244,1), rgba(63,94,251,1), transparent); width: ' + rating*20 + '%;'"></div>
+
+                                <!-- Centered Text Inside Tube -->
+                                <div class="absolute top-0 left-0 w-full h-full flex justify-between items-center px-16">
+                                    <template x-for="(text, index) in ['Not bad', 'Keep going', 'Good job', 'Almost there', 'Perfect']">
+                                        <span :class="rating >= index + 1 ? 'glow-text glitter-text' : 'glow-text'" x-text="text"></span>
+                                    </template>
+                                </div>
+                            </div>
+                            <!-- Tube ends here -->
+
+                            <button @click="fillTube()" class="px-8 py-3 bg-gradient-to-r from-gray-900 to-gray-800 rounded-full glow-box glow-text transition-all hover:bg-gradient-to-r hover:from-gray-800 hover:to-gray-700 hover:shadow-lg text-white font-bold text-xl mt-16">
+                                Rate Us
+                            </button>
+                        </section>
+
+                        <!-- Footer section -->
+                        <section class="footer flex flex-col md:flex-row items-start md:items-center justify-between text-center text-white space-y-8 md:space-y-0 p-4 md:p-12 mt-40 glow-box" x-data="{ showContent: [false, false] }">
+                            <!-- Title -->
+                            <div class="title-container flex-1 mb-8 md:mb-0">
+                                <h1 class="text-2xl md:text-4xl font-bold uppercase tracking-wide mb-8 md:mb-16 title-icon-background text-center gradient-text">
+                                    Contact Us
+                                </h1>
+                            </div>
+                            <!-- First Container -->
+                            <div class="flex-1 mb-8 text-center">
+                                <h2 class="text-xl md:text-3xl font-bold mb-4 glow-text">Get in Touch</h2>
+                                <p class="mb-8 leading-relaxed glow-text">Have a question...</p>
+                            </div>
+
+                            <!-- Second Container -->
+                            <div class="flex-1 mb-8 text-center">
+                                <h2 class="text-xl md:text-3xl font-bold mb-4 glow-text">Our Location</h2>
+                                <p class="mb-8 leading-relaxed glow-text">We are located...</p>
+                            </div>
+
+                            <!-- Social Media Links -->
+                            <div class="flex-1 w-full text-center py-8">
+                                <h2 class="text-xl md:text-2xl font-bold mb-8">Follow Us</h2>
+                                <div class="social-icons flex justify-center mb-8">
+                                    <a href="https://www.facebook.com" class="mx-2" target="_blank"><i class="fab fa-facebook"></i></a>
+                                    <a href="https://www.twitter.com" class="mx-2" target="_blank"><i class="fab fa-twitter"></i></a>
+                                    <a href="https://www.instagram.com" class="mx-2" target="_blank"><i class="fab fa-instagram"></i></a>
+                                </div>
+                                <!-- Copyright Info -->
+                                <div class="text-center mt-8">
+                                    <p>© 2023 Galactic Coffee. All rights reserved.</p>
+                                </div>
+                            </div>
+                        </section>
+                    </main>
+                </div>
+            </body>
+        </div>
+
+
+<script>
+
+    // Initiates the star animation sequence by adding stars until a maximum count is reached,
+    // and then removes stars after a certain delay.
+
+    window.startStarAnimation = function () {
+        let starCount = 0;
+        const maxStarCount = 150;
+        const addStarInterval = setInterval(() => {
+            if (starCount < maxStarCount) {
+                addStar();
+                starCount++;
+            } else {
+                clearInterval(addStarInterval);
+            }
+        }, 50); // Increase interval for softer appearance
+
+        setTimeout(() => {
+            const removeStarInterval = setInterval(() => {
+                if (starCount > 0) {
+                    removeStar();
+                    starCount--;
+                } else {
+                    clearInterval(removeStarInterval);
+                }
+            }, 50); // Increase interval for softer removal
+        }, 4500);  // Delay the removal a bit more since stars are appearing more slowly
+    }
+
+    // Adds a star element with randomized properties to the '#content-container'.
+    function addStar() {
+        const starOpacity = Math.random() * 0.5 + 0.5; // Random opacity between 0.5 and 1
+
+        const star = document.createElement("div");
+        star.className = "star";
+        star.style.width = `${Math.random() * 5}px`;
+        star.style.height = star.style.width;
+        star.style.top = `${Math.random() * document.querySelector('#content-container').clientHeight}px`;
+        star.style.left = `${Math.random() * document.querySelector('#content-container').clientWidth}px`;
+        star.style.animationDuration = `${Math.random() * 3 + 2}s`;
+        star.style.animationDelay = `${Math.random() * 3}s`;
+        star.style.opacity = 0; // start at 0 opacity
+        star.style.transition = "opacity 1s"; // fade in over 1 second
+        setTimeout(() => { star.style.opacity = starOpacity; }, 10); // after adding to DOM, fade in
+
+        document.querySelector('#content-container').appendChild(star);
+    }
+
+    // Removes the first encountered star element from the DOM.
+    function removeStar() {
+        const star = document.querySelector(".star");
+        if (star) {
+            star.parentNode.removeChild(star);
+        }
+    }
+
+    // Toggles the 'glowing' class on a DOM element with a given ID, controlling its glow effect.
+    function toggleGlow(boxId) {
+        const box = document.getElementById(boxId);
+        box.classList.toggle('glowing');
+    }
+
+
+</script>
+
+
+
+</html>
